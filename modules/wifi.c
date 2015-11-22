@@ -82,12 +82,10 @@ void ICACHE_FLASH_ATTR WIFI_Connect(uint8_t* ssid, uint8_t* pass, WifiCallback c
 	wifiCb = cb;
 
 
-	char ssidd[32] = "FialkaNet";
-	char password[64] = "mamamelemasoa";
 	struct station_config stationConf;
 	stationConf.bssid_set = 0; //need not check MAC address of AP
-	os_memcpy(&stationConf.ssid, ssidd, 32);
-	os_memcpy(&stationConf.password, password, 64);
+	os_memcpy(&stationConf.ssid, ssid, 32);
+	os_memcpy(&stationConf.password, pass, 64);
 	wifi_station_set_config(&stationConf);
 
 	os_timer_disarm(&WiFiLinker);

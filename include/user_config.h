@@ -1,13 +1,13 @@
 #ifndef _USER_CONFIG_H_
 #define _USER_CONFIG_H_
 
-#define CFG_HOLDER	0x00FF55A5	/* Change this value to load default configurations */
+#define CFG_HOLDER	0x009955A6	/* Change this value to load default configurations */
 #define CFG_LOCATION	0x3C	/* Please don't change or if you know what you doing */
 #define CLIENT_SSL_ENABLE
 
 /*DEFAULT CONFIGURATIONS*/
 
-#define MQTT_HOST			"10.0.0.1" //or "mqtt.yourdomain.com"
+#define MQTT_HOST			"192.168.201.87" //or "mqtt.yourdomain.com"
 #define MQTT_PORT			41235
 #define MQTT_BUF_SIZE		1024
 #define MQTT_KEEPALIVE		120	 /*second*/
@@ -16,8 +16,8 @@
 #define MQTT_USER			""
 #define MQTT_PASS			""
 
-#define STA_SSID "FialkaNet"
-#define STA_PASS "mamamelemasoa"
+#define STA_SSID "CC-P"
+#define STA_PASS "lasi4ka-4esk8"
 #define STA_TYPE AUTH_WPA2_PSK
 
 #define MQTT_RECONNECT_TIMEOUT 	5	/*second*/

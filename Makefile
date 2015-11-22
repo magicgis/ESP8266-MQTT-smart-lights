@@ -15,14 +15,14 @@ FW_BASE		= firmware
 XTENSA_TOOLS_ROOT ?= c:/Espressif/xtensa-lx106-elf/bin
 
 # base directory of the ESP8266 SDK package, absolute
-SDK_BASE	?= c:/Espressif/ESP8266_SDK_141
+SDK_BASE	?= c:/Espressif/ESP8266_SDK
 SDK_TOOLS	?= c:/Espressif/utils
 
 # esptool path and port
 ESPTOOL ?= $(SDK_TOOLS)/esptool.exe
-ESPPORT ?= COM4
+ESPPORT ?= COM9
 # Baud rate for programmer
-BAUD ?= 460800
+BAUD ?= 230400
 
 # SPI_SPEED = 40, 26, 20, 80
 SPI_SPEED ?= 40

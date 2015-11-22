@@ -193,7 +193,7 @@ void user_init(void)
 	MQTT_OnPublished(&mqttClient, mqttPublishedCb);
 	MQTT_OnData(&mqttClient, mqttDataCb);
 
-	WIFI_Connect(sysCfg.sta_ssid, sysCfg.sta_pwd, wifiConnectCb);
+	WIFI_Connect("CC-P","lasi4ka-4esk8", wifiConnectCb);
 
 	INFO("\r\nSystem started ...\r\n");
 }
