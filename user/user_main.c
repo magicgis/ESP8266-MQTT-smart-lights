@@ -38,11 +38,13 @@
 #include "user_interface.h"
 #include "mem.h"
 #include "driver/mnhs_gpio.h"
+#include "driver/mnhs_sensor_board.h"
 
 MQTT_Client mqttClient;
 LOCAL os_timer_t heartbeat_timer;
 uint8 hbnum = 0;
 int qos =1;
+uint8 pins[4]={0,0,0,0};
 
 #define HEARTBEAT_DELAY 2000
 
@@ -55,14 +57,13 @@ void wifiConnectCb(uint8_t status)
 	}
 }
 
-void heartbeat_packet(void *arg) {
+void heartbeat_packet() {
 	char topic[40];
 	os_sprintf(topic, "/ESP8266/%X/HEARTBEAT", system_get_chip_id());
 
 	char msg[100];
-	os_sprintf(msg, "%X:%d:%d", system_get_chip_id(), hbnum++,wifi_station_get_rssi());
+	os_sprintf(msg, "%X:%d:%d:%d%d%d%d:%d:%d:%d", system_get_chip_id(), hbnum++,wifi_station_get_rssi(),pins[0],pins[1],pins[2],pins[3],getIllumination(),getPressure(),(int)(getTemperature()*100));
 	ets_uart_printf(msg);
-
 
 	MQTT_Publish(&mqttClient, topic, msg, strlen(msg), qos, 0);
 	MQTT_Publish(&mqttClient, "/ESP8266/ALL/HEARTBEAT", msg,strlen(msg), qos, 0);
@@ -123,6 +124,8 @@ bool process_data(char* topic,char* data, int token_count) {
 				int pin = data[0]-48;
 				int value = data[1]-48;
 				if (io_toggle(pin, value)) {
+					pins[pin-1]=value;
+					heartbeat_packet();
 					return true;
 				}
 				/*
@@ -193,7 +196,11 @@ void user_init(void)
 	MQTT_OnPublished(&mqttClient, mqttPublishedCb);
 	MQTT_OnData(&mqttClient, mqttDataCb);
 
-	WIFI_Connect("CC-P","lasi4ka-4esk8", wifiConnectCb);
+	//WIFI_Connect("CC-P","lasi4ka-4esk8", wifiConnectCb);
+	WIFI_Connect("FialkaNet","mamamelemasoa", wifiConnectCb);
+
 
 	INFO("\r\nSystem started ...\r\n");
+
+	sensors_init();
 }
