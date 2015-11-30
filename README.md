@@ -15,6 +15,15 @@ and message format is following:
 
 "chip_id:increment:wifi_rssi:relay_state:illumination:pressure:temperature"
 
+where:
+- chip_id = chip id in uppercase HEX
+- increment = number constantly increasing (and ther overflowing) from 0 to 255 used for estimating packet loss and packet order
+- wifi_rssi = receieved signal strength indicator for wifi AP
+- relay_state = state of relay (and also LED), can be 0 or 1
+- illumination = value of ambient illumination from OPT3001 sensor
+- pressure = atmospheric pressure in pascals*100 from MPL3115 sensor
+- temperature = temperature in degree celsius*100 from MPL3115 sensor
+
 ### Subscribe
 Each client is subscribed do following topics:
 - /ESP8266/ALL/GPIO
