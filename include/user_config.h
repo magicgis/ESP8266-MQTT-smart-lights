@@ -1,14 +1,19 @@
 #ifndef _USER_CONFIG_H_
 #define _USER_CONFIG_H_
 
-#define CFG_HOLDER	0x009955A6	/* Change this value to load default configurations */
+#define CFG_HOLDER	0x009955A4	/* Change this value to load default configurations */
 #define CFG_LOCATION	0x3C	/* Please don't change or if you know what you doing */
 #define CLIENT_SSL_ENABLE
 
 /*DEFAULT CONFIGURATIONS*/
 
+#define MQTT_HOST			"192.168.1.152" //or "mqtt.yourdomain.com"
+//#define MQTT_HOST			"eclub-hub1.local" //or "mqtt.yourdomain.com"
+
+
+
 //#define MQTT_HOST			"192.168.201.87" //or "mqtt.yourdomain.com"
-#define MQTT_HOST			"10.0.0.1" //or "mqtt.yourdomain.com"
+//#define MQTT_HOST			"10.0.0.1" //or "mqtt.yourdomain.com"
 
 
 #define MQTT_PORT			41235

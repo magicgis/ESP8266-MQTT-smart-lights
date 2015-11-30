@@ -43,8 +43,8 @@
 MQTT_Client mqttClient;
 LOCAL os_timer_t heartbeat_timer;
 uint8 hbnum = 0;
-int qos =1;
-uint8 pins[4]={0,0,0,0};
+int qos =2;
+int state=0;
 
 #define HEARTBEAT_DELAY 2000
 
@@ -58,14 +58,19 @@ void wifiConnectCb(uint8_t status)
 }
 
 void heartbeat_packet() {
-	char topic[40];
-	os_sprintf(topic, "/ESP8266/%X/HEARTBEAT", system_get_chip_id());
+	//char topic[40];
+	//os_sprintf(topic, "/ESP8266/%X/HEARTBEAT", system_get_chip_id());
+
 
 	char msg[100];
-	os_sprintf(msg, "%X:%d:%d:%d%d%d%d:%d:%d:%d", system_get_chip_id(), hbnum++,wifi_station_get_rssi(),pins[0],pins[1],pins[2],pins[3],getIllumination(),getPressure(),(int)(getTemperature()*100));
+	os_sprintf(msg, "%X:%d:%d:%d:%d:%d:%d", system_get_chip_id(), hbnum++,wifi_station_get_rssi(),state,getIllumination(),getPressure(),(int)(getTemperature()*100));
+	ets_uart_printf("\r\n");
 	ets_uart_printf(msg);
+	ets_uart_printf("\r\n");
 
+	/*
 	MQTT_Publish(&mqttClient, topic, msg, strlen(msg), qos, 0);
+	*/
 	MQTT_Publish(&mqttClient, "/ESP8266/ALL/HEARTBEAT", msg,strlen(msg), qos, 0);
 }
 
@@ -120,22 +125,14 @@ bool process_data(char* topic,char* data, int token_count) {
 		topic = strtok(NULL, "/");
 
 		if (!strcmp(topic, "GPIO")) {
-			if(strlen(data)==2){
-				int pin = data[0]-48;
-				int value = data[1]-48;
-				if (io_toggle(pin, value)) {
-					pins[pin-1]=value;
+			if(strlen(data)==1){
+				state = data[0]-48;
+				bool result = io_toggle(1, !state)&&io_toggle(2, state);
+				if (result) {
+					INFO("\r\n sending HB imidiately \r\n");
 					heartbeat_packet();
 					return true;
 				}
-				/*
-				if(pin>0&&pin<5){
-					if(value>=0&&value<=1){
-						INFO("=> set pin %d to %d\r\n",pin,value);
-						return true;
-					}
-				}
-				*/
 			}
 		}
 
@@ -196,8 +193,10 @@ void user_init(void)
 	MQTT_OnPublished(&mqttClient, mqttPublishedCb);
 	MQTT_OnData(&mqttClient, mqttDataCb);
 
+	WIFI_Connect("Turris","zettor11", wifiConnectCb);
+
 	//WIFI_Connect("CC-P","lasi4ka-4esk8", wifiConnectCb);
-	WIFI_Connect("FialkaNet","mamamelemasoa", wifiConnectCb);
+	//WIFI_Connect("FialkaNet","mamamelemasoa", wifiConnectCb);
 
 
 	INFO("\r\nSystem started ...\r\n");
