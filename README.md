@@ -17,7 +17,7 @@ and message format is following:
 
 where:
 - chip_id = chip id in uppercase HEX
-- increment = constantly incrementing (and then overflowing 0-255) byte value used for estimating packet loss and packet order
+- increment = constantly incrementing (and then overflowing) byte value used for estimating packet loss and packet order
 - wifi_rssi = receieved signal strength indicator for wifi AP
 - relay_state = state of relay (and also LED), can be 0 or 1
 - illumination = value of ambient illumination from OPT3001 sensor
@@ -34,3 +34,9 @@ Message format is simply desired value of relay.
 - "1" : enabled
 
 Client sends heartbeat packet with updated relay state as response immediately after receiving valid message on subscription topic.
+
+## Sensor board
+Communication with sensor board is realized via I2C.
+Sensor board consists of following sensors:
+- OPT3001 (I2C address 0x44)
+- MPL3115 (I2C address 0x60)
