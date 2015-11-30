@@ -25,7 +25,7 @@ where:
 - temperature = temperature in degree celsius*100 from MPL3115 sensor
 
 ### Subscribe
-Each client is subscribed do following topics:
+Each client is subscribed to following topics:
 - /ESP8266/ALL/GPIO
 - /ESP8266/chip_id/GPIO (chip_id is chip id in uppercase HEX)
 
