@@ -17,7 +17,7 @@ and message format is following:
 
 where:
 - chip_id = chip id in uppercase HEX
-- increment = number constantly increasing (and ther overflowing) from 0 to 255 used for estimating packet loss and packet order
+- increment = constantly incrementing (and then overflowing 0-255) byte value used for estimating packet loss and packet order
 - wifi_rssi = receieved signal strength indicator for wifi AP
 - relay_state = state of relay (and also LED), can be 0 or 1
 - illumination = value of ambient illumination from OPT3001 sensor
